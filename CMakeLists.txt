@@ -13,3 +13,23 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(${PROJECT_NAME} src/main.cpp src/DirectoryStatistics.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
+include_directories(${googletest_SOURCE_DIR}/googletest/include/gtest)
+
+enable_testing()
+
+add_executable(test0 tests/test0.cpp src/DirectoryStatistics.cpp)
+target_include_directories(test0 PUBLIC include/)
+target_link_libraries(test0 gtest_main)
+
+add_executable(test1 tests/test1.cpp src/DirectoryStatistics.cpp)
+target_include_directories(test1 PUBLIC include/)
+target_link_libraries(test1 gtest_main)
+
+add_executable(test2 tests/test2.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(test2 PUBLIC include/)
+target_link_libraries(test2 gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(test0)
+gtest_discover_tests(test1)
+gtest_discover_tests(test2)
