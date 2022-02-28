@@ -19,6 +19,22 @@ public:
 
     const std::shared_ptr<Directory> getRootDirectory() const { return rootDirectory; }
 
+    unsigned long long getTotalNumberOfDirectories() const {
+        return rootDirectory->getTotalNumberOfDirectories();
+    }
+
+    unsigned long long getTotalNumberOfFiles() const {
+        return rootDirectory->getTotalNumberOfFiles();
+    }
+
+    unsigned long long getTotalNumberOfEmptyLines() const {
+        return rootDirectory->getTotalNumberOfEmptyLines();
+    }
+
+    unsigned long long getTotalNumberOfNonemptyLines() const {
+        return rootDirectory->getTotalNumberOfNonemptyLines();
+    }
+
 private:
     std::filesystem::path rootDirectoryPath{};
     std::shared_ptr<Directory> rootDirectory{nullptr};

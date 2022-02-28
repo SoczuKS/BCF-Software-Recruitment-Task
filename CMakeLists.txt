@@ -30,7 +30,27 @@ add_executable(test2 tests/test2.cpp src/DirectoryStatistics.cpp src/ThreadPool.
 target_include_directories(test2 PUBLIC include/)
 target_link_libraries(test2 gtest_main)
 
+add_executable(test3 tests/test3.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(test3 PUBLIC include/)
+target_link_libraries(test3 gtest_main)
+
+add_executable(test4 tests/test4.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(test4 PUBLIC include/)
+target_link_libraries(test4 gtest_main)
+
+add_executable(test5 tests/test5.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(test5 PUBLIC include/)
+target_link_libraries(test5 gtest_main)
+
+add_executable(test6 tests/test6.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(test6 PUBLIC include/)
+target_link_libraries(test6 gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(test0)
 gtest_discover_tests(test1)
 gtest_discover_tests(test2)
+gtest_discover_tests(test3)
+gtest_discover_tests(test4)
+gtest_discover_tests(test5)
+gtest_discover_tests(test6)

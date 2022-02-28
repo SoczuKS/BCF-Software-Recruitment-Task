@@ -1,5 +1,7 @@
 #include <DirectoryStatistics.hpp>
 
+#include <fstream>
+
 DirectoryStatistics::DirectoryStatistics(const std::string& rootDirectoryPathString,
                                          const unsigned int maxNumberOfThreads) :
         rootDirectoryPath(std::filesystem::path(rootDirectoryPathString)),
@@ -25,6 +27,11 @@ void DirectoryStatistics::print(std::ostream& os) {
     }
 
     rootDirectory->print(os, 0);
+
+    os << "Total: [d: " << getTotalNumberOfDirectories();
+    os << ", f:" << getTotalNumberOfFiles();
+    os << ", nel:" << getTotalNumberOfNonemptyLines();
+    os << ", el:" << getTotalNumberOfEmptyLines() << "]\n";
 }
 
 void DirectoryStatistics::analyzeDirectory(const std::shared_ptr<Directory> directory, const std::filesystem::path& directoryPath) {
@@ -55,5 +62,46 @@ void DirectoryStatistics::analyzeDirectory(const std::shared_ptr<Directory> dire
 }
 
 void DirectoryStatistics::analyzeFile(const std::shared_ptr<File> file, const std::filesystem::path& filePath) {
+    if (std::filesystem::is_empty(filePath)) {
+        return;
+    }
 
+    // Letters counter
+    std::ifstream fileStream(filePath);
+    char letter;
+    while(fileStream >> letter) {
+        if (std::isalpha(letter)) {
+            file->letters++;
+        }
+    }
+    fileStream.clear();
+    fileStream.seekg(0);
+
+    // Words counter
+    std::string word;
+    while(fileStream >> word) {
+        file->words++;
+    }
+    fileStream.clear();
+    fileStream.seekg(0);
+
+    // Lines counter
+    std::string line;
+    while (std::getline(fileStream, line)) {
+        bool emptyLine = true;
+        for (auto& c : line) {
+            if (!isspace(c)) {
+                emptyLine = false;
+                break;
+            }
+        }
+
+        if (emptyLine) {
+            file->emptyLines++;
+        } else {
+            file->nonemptyLines++;
+        }
+    }
+
+    fileStream.close();
 }
