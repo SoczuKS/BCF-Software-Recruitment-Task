@@ -7,13 +7,7 @@
 class DirectoryStatisticsTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::filesystem::copy("../tests/test_directory_1", "test6_directory", std::filesystem::copy_options::recursive);
-
-        ds = std::make_shared<DirectoryStatistics>("test6_directory");
-    }
-
-    void TearDown() override {
-        std::filesystem::remove_all("test6_directory");
+        ds = std::make_shared<DirectoryStatistics>("../tests/test_directory_1");
     }
 
     std::shared_ptr<DirectoryStatistics> ds;
