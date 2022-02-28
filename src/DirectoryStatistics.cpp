@@ -1,7 +1,9 @@
 #include <DirectoryStatistics.hpp>
 
-DirectoryStatistics::DirectoryStatistics(const std::string& rootDirectoryPathString) {
-    rootDirectoryPath = std::filesystem::path(rootDirectoryPathString);
+DirectoryStatistics::DirectoryStatistics(const std::string& rootDirectoryPathString,
+                                         const unsigned int maxNumberOfThreads) :
+        rootDirectoryPath(std::filesystem::path(rootDirectoryPathString)),
+        threadPool(std::make_shared<ThreadPool>(maxNumberOfThreads)) {
     gatherStatistics();
 }
 
@@ -12,6 +14,8 @@ void DirectoryStatistics::gatherStatistics() {
 
     rootDirectory = std::make_shared<Directory>(rootDirectoryPath.filename());
     analyzeDirectory(rootDirectory, rootDirectoryPath);
+
+    threadPool->terminate();
 }
 
 void DirectoryStatistics::print(std::ostream& os) {
@@ -32,11 +36,20 @@ void DirectoryStatistics::analyzeDirectory(const std::shared_ptr<Directory> dire
         if (entry.is_directory()) {
             auto entryDirectory = std::make_shared<Directory>(entry.path().filename());
             directory->directories.push_back(entryDirectory);
-            analyzeDirectory(entryDirectory, entry);
+
+            std::function<void()> directoryJob{[this, entryDirectory, entry](){
+                this->analyzeDirectory(entryDirectory, entry);
+            }};
+
+            threadPool->addJob(directoryJob);
         } else if (entry.is_regular_file()) {
             auto entryFile = std::make_shared<File>(entry.path().filename());
             directory->files.push_back(entryFile);
-            analyzeFile(entryFile, entry);
+
+            std::function<void()> fileJob{[this, entryFile, entry]() {
+                this->analyzeFile(entryFile, entry);
+            }};
+            threadPool->addJob(fileJob);
         }
     }
 }

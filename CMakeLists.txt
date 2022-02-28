@@ -4,6 +4,7 @@ project(bcf_recruitment_task)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS -pthread)
 
 include(FetchContent)
 FetchContent_Declare(googletest URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip)
@@ -11,17 +12,17 @@ FetchContent_Declare(googletest URL https://github.com/google/googletest/archive
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/DirectoryStatistics.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
 include_directories(${googletest_SOURCE_DIR}/googletest/include/gtest)
 
 enable_testing()
 
-add_executable(test0 tests/test0.cpp src/DirectoryStatistics.cpp)
+add_executable(test0 tests/test0.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
 target_include_directories(test0 PUBLIC include/)
 target_link_libraries(test0 gtest_main)
 
-add_executable(test1 tests/test1.cpp src/DirectoryStatistics.cpp)
+add_executable(test1 tests/test1.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
 target_include_directories(test1 PUBLIC include/)
 target_link_libraries(test1 gtest_main)
 
