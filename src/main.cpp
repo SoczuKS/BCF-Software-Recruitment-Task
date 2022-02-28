@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-    auto directoryStatistics = DirectoryStatistics("../sample_directories");
+    auto directoryStatistics = DirectoryStatistics(".");
 
     std::cout << directoryStatistics << std::endl;
 
