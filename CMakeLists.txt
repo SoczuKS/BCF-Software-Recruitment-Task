@@ -2,9 +2,15 @@ cmake_minimum_required(VERSION 3.12)
 
 project(bcf_recruitment_task)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS -pthread)
+set(CMAKE_CXX_FLAGS "-pthread -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG -g)
+set(CMAKE_CXX_FLAGS_RELEASE -O3)
 
 include(FetchContent)
 FetchContent_Declare(googletest URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip)
@@ -46,6 +52,30 @@ add_executable(test6 tests/test6.cpp src/DirectoryStatistics.cpp src/ThreadPool.
 target_include_directories(test6 PUBLIC include/)
 target_link_libraries(test6 gtest_main)
 
+add_executable(btest0 tests/btest0.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest0 PUBLIC include/)
+target_link_libraries(btest0 gtest_main)
+
+add_executable(btest1 tests/btest1.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest1 PUBLIC include/)
+target_link_libraries(btest1 gtest_main)
+
+add_executable(btest2 tests/btest2.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest2 PUBLIC include/)
+target_link_libraries(btest2 gtest_main)
+
+add_executable(btest3 tests/btest3.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest3 PUBLIC include/)
+target_link_libraries(btest3 gtest_main)
+
+add_executable(btest4 tests/btest4.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest4 PUBLIC include/)
+target_link_libraries(btest4 gtest_main)
+
+add_executable(btest5 tests/btest5.cpp src/DirectoryStatistics.cpp src/ThreadPool.cpp)
+target_include_directories(btest5 PUBLIC include/)
+target_link_libraries(btest5 gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(test0)
 gtest_discover_tests(test1)
@@ -54,3 +84,10 @@ gtest_discover_tests(test3)
 gtest_discover_tests(test4)
 gtest_discover_tests(test5)
 gtest_discover_tests(test6)
+
+gtest_discover_tests(btest0)
+gtest_discover_tests(btest1)
+gtest_discover_tests(btest2)
+gtest_discover_tests(btest3)
+gtest_discover_tests(btest4)
+gtest_discover_tests(btest5)
