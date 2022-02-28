@@ -25,8 +25,6 @@ void ThreadPool::addJob(std::function<void()> job) {
     condition.notify_one();
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "EndlessLoop"
 void ThreadPool::worker() {
     while (true) {
         std::function<void()> job;
@@ -49,7 +47,6 @@ void ThreadPool::worker() {
         job();
     }
 }
-#pragma clang diagnostic pop
 
 void ThreadPool::terminate() {
     {

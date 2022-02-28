@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-int main(int argc, char *argv[]) {
+int main() {
     auto directoryStatistics = DirectoryStatistics("../sample_directories");
 
     std::cout << directoryStatistics << std::endl;
